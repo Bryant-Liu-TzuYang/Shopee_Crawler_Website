@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="30">
+  <title>Shopee Link Crawler</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Shopee Link Crawler</h1>
+      <p>Developed by Bryant Liu</p>
+      <nav>
+        <a href="#">How to use?</a>
+        <a href="#">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <br><br/>
+      <button id="upload-btn" onclick="handleFile()">Click to Upload a file</button>
+      <br><br/>
+      <button id="submit-btn">Submit</button>
+      <br><br/>
+      <form method="post" enctype="multipart/form-data" action="/" id="upload-form">
+        <input id="file-input" type="file" accept=".csv" style="display:none" multiple name="file">
+        <input id="file-submit" type="submit" style="display: none;">
+      </form>
+      <h3 id="test"></h3>
+      <h2 id="status">a test element</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Uploaded File name</th>
+            <th>Status</th>
+            <th>View on web</th>
+            <th>Stop</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody id="fileTable">
+          {% for file in files %}
+            <tr>
+              <td>{{file['filename']|safe}}</td>
+              <td style="color:gray;" id="status">{{file['status']|safe}}</td>
+              <td>
+                <form action="{{ url_for('showData', filename=file['filename']|safe, stamp=file['stamp']|safe) }}" target="_blank">
+                  <input type="submit" value="view" class="view-btn"/>
+                </form>
+              </td>
+              <td><button class="stop-btn">stop</button></td>
+              <td>
+                <form action="{{ url_for('download_file', filename=file['filename']|safe, stamp=file['stamp']|safe) }}">
+                  <input type="submit" value="download" class="download-btn"/>
+                </form>
+                <!-- <button class="download-btn" disabled>download</button> -->
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
