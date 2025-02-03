@@ -11,5 +11,10 @@ def index():
    files = list()
    return render_template('home_page.html', files=files)
 
+
+import db
+db.init_app(app)
+
+
 if __name__ == '__main__':
    app.run()
