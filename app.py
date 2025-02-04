@@ -23,6 +23,22 @@ def index():
 
     files = list()
 
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        IF NOT EXISTS (
+        CREATE TABLE files (
+            ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
+            filename NVARCHAR(255),
+            status NVARCHAR(255),
+            stamp TIMESTAMP
+            )
+        );
+    """)
+
+    conn.commit()
+
     return render_template('home_page.html', files=files)
 
 
