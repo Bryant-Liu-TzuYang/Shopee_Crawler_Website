@@ -27,13 +27,7 @@ def index():
     cursor = conn.cursor()
 
     cursor.execute("""
-        IF NOT EXISTS (
-        CREATE TABLE files (
-            ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
-            filename NVARCHAR(255),
-            status NVARCHAR(255),
-            stamp TIMESTAMP
-            )
+        INSERT INTO dbo.files (filename, status, stamp) VALUES ('test.txt', 'test', 20200301123021);
         );
     """)
 
@@ -54,6 +48,5 @@ def get_conn():
 
 if __name__ == '__main__':
    app.run()
-
 
 
