@@ -5,3 +5,4 @@ gunicorn
 pyodbc
 pydantic
 azure-identity
+pandas

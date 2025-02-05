@@ -4,6 +4,9 @@ from azure import identity
 from typing import Union
 from pydantic import BaseModel
 
+import time
+import pandas as od
+
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory, url_for)
 
@@ -14,7 +17,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index():
+def main_page():
     # Configure upload file path flask
     UPLOAD_FOLDER = 'uploads'
     OUTPUT_FOLDER = 'outputs'
@@ -22,12 +25,17 @@ def index():
     app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 
     files = list()
+    time_stamps = list()
 
     conn = get_conn()
     cursor = conn.cursor()
 
-    cursor.execute("""
-        INSERT INTO dbo.files (filename, status, stamp) VALUES ('test.txt', 'test', 20200301123021);
+    time_temp = time.localtime()
+    time_stamp = str(time.strftime("%Y%m%d%H%M%S", time_temp))
+    time_stamps.append(time_stamp)
+
+    cursor.execute(f"""
+        INSERT INTO dbo.files (filename, status, stamp) VALUES ('test.txt', 'test', {time_stamp});
     """)
 
     conn.commit()
