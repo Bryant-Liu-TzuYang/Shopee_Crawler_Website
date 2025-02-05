@@ -28,7 +28,6 @@ def index():
 
     cursor.execute("""
         INSERT INTO dbo.files (filename, status, stamp) VALUES ('test.txt', 'test', 20200301123021);
-        );
     """)
 
     conn.commit()
@@ -48,5 +47,3 @@ def get_conn():
 
 if __name__ == '__main__':
    app.run()
-
-
